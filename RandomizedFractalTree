@@ -1,0 +1,80 @@
+package aufgabe05;
+
+import java.lang.Math;
+import java.util.Random;
+
+
+public class PythagorasBaum2 {
+    public static Random random = new Random();
+    public static int min = 30;
+    public static int max = 80;
+
+    /**
+     * Draws a fractal-like tree pattern recursively.
+     *
+     * @param xA The start x-coordinate.
+     * @param yA The start y-coordinate.
+     * @param length The length of the current line segment.
+     * @param angle The angle at which the current line segment is drawn.
+     */
+
+    static void draw(double xA, double yA, double length,double angle){
+        if (length > 2) {
+            double delta = Math.toRadians(min + (max - min) * random.nextDouble());
+            double höhe = Math.random() * length * 3;
+
+            double s = length * Math.sin(angle);
+            double c = length * Math.cos(angle);
+
+            double v = length * Math.sin(delta);
+            double u = length * Math.cos(delta);
+
+            double w = höhe * Math.sin(angle);
+            double x = höhe * Math.cos(angle);
+
+            double xD = xA - w;
+            double yD = yA + x;
+
+            double xC = xA - w + c;
+            double yC = yA + x + s;
+
+            double xB = xA + c;
+            double yB = yA + s;
+
+            double xE = xD + u * Math.cos(angle + delta);
+            double yE = yD + u * Math.sin(angle + delta);
+
+            StdDraw.line(xA, yA, xD, yD);
+
+            StdDraw.line(xB, yB, xC, yC);
+
+
+            if (length < 10){
+                StdDraw.setPenColor(StdDraw.GREEN);
+                StdDraw.line(xA, yA, xD, yD);
+                StdDraw.line(xB, yB, xC, yC);
+            }
+
+
+
+            draw(xD, yD, u, angle + delta);
+            draw(xE,yE,v, angle  + delta - 0.5 * Math.PI);
+
+        }
+    }
+    /**
+     * Main method for initialising the drawing area and starting the fractal drawing process.
+     *
+     */
+
+
+    public static void main(String[] args) {
+        StdDraw.setCanvasSize(500, 500);
+        StdDraw.setXscale(-300, 300);
+        StdDraw.setYscale(-200, 400);
+        StdDraw.setPenRadius(0.001);
+        StdDraw.show(0);
+        draw(1,1, 60, 0);
+        StdDraw.show(0);
+    }
+}
