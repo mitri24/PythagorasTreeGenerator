@@ -1,0 +1,72 @@
+package aufgabe05;
+import java.lang.Math;
+
+
+public class PythagorasBaum {
+   
+    public static double delta = Math.toRadians(30);
+
+
+     /**
+     * Draws a Pythagoras tree recursively.
+     *
+     * @param xA The start x-coordinate.
+     * @param yA The starting y-coordinate.
+     * @param length The length of the current line segment.
+     * @param angle The angle at which the current line segment is drawn.
+     */
+
+    static void draw(double xA, double yA, double length,double angle){
+        if (length > 2) {
+            double s = length * Math.sin(angle);
+            double c = length * Math.cos(angle);
+
+            double v = length * Math.sin(delta);
+            double u = length * Math.cos(delta);
+
+            double xD = xA - s;
+            double yD = yA + c;
+
+            double xC = xD + c;
+            double yC = yD + s;
+
+            double xB = xA + c;
+            double yB = yA + s;
+
+            double xE = xD + u * Math.cos(angle + delta);
+            double yE = yD + u * Math.sin(angle + delta);
+
+            StdDraw.line(xA, yA, xD, yD);
+
+            StdDraw.line(xB, yB, xC, yC);
+
+             if (length < 10){
+                 StdDraw.setPenColor(StdDraw.GREEN);
+                 StdDraw.line(xA, yA, xD, yD);
+                 StdDraw.line(xB, yB, xC, yC);
+             }
+
+
+
+            draw(xD, yD, u, angle + delta);
+            draw(xE,yE,v, angle  + delta - 0.5 * Math.PI);
+
+        }
+    }
+
+       /**
+     * Main method for initialising the drawing area and starting the Pythagoras tree.
+     *
+     * @param args command line arguments (not used).
+     */
+
+    public static void main(String[] args) {
+        StdDraw.setCanvasSize(500, 500);
+        StdDraw.setXscale(-300, 300);
+        StdDraw.setYscale(-200, 400);
+        StdDraw.setPenRadius(0.001);
+        StdDraw.show(0);
+        draw(1,1, 60, 0);
+        StdDraw.show(0);
+    }
+}
